@@ -129,6 +129,14 @@ export const Game = () => {
     setCellSelected(indexOfArray);
   }
 
+
+  function handleKeyPress(event, indexOfArray) {
+    if (isFinite(event.key))
+      _userFillCell(indexOfArray, event.key);
+    else
+      _fillCell(indexOfArray, '0');
+  }
+
   /**
    * On Change Difficulty,
    * 1. Update 'Difficulty' level
@@ -225,6 +233,7 @@ export const Game = () => {
         <div className="innercontainer">
           <GameSection
             onClick={(indexOfArray) => onClickCell(indexOfArray)}
+            handleKeyPress={(event, indexOfArray) => handleKeyPress(event, indexOfArray)}
           />
           <StatusSection
             onClickNumber={(number) => onClickNumber(number)}

@@ -13,10 +13,12 @@ export const Numbers = (props) => {
         [1,2,3,4,5,6,7,8,9].map((number) => {
           if (numberSelected === number.toString()) {
             return (
+              // On CLICK number pad -- selected
               <div className="status__number status__number--selected" key={number} onClick={() => props.onClickNumber(number.toString())}>{number}</div>
             )
           } else {
             return (
+              // Every number on pad -- default.
               <div className="status__number" key={number} onClick={() => props.onClickNumber(number.toString())}>{number}</div>
             )
           }

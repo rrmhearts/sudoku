@@ -5,12 +5,12 @@ import { useSudokuContext } from '../../context/SudokuContext';
  * React component for the Game Section
  */
 export const GameSection = (props) => {
-  const rows = [0,1,2,3,4,5,6,7,8];
+  const rows = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   let { numberSelected,
-        gameArray,
-        fastMode,
-        cellSelected,
-        initArray } = useSudokuContext();
+    gameArray,
+    fastMode,
+    cellSelected,
+    initArray } = useSudokuContext();
 
   /**
    * Cell Highlight Method 1: Highlight all cells
@@ -27,23 +27,23 @@ export const GameSection = (props) => {
     if (rowOfSelectedCell === row || columnOfSelectedCell === column) {
       return true;
     }
-    return [  [0,3,0,3],
-              [0,3,3,6],
-              [0,3,6,9],
-              [3,6,0,3],
-              [3,6,3,6],
-              [3,6,6,9],
-              [6,9,0,3],
-              [6,9,3,6],
-              [6,9,6,9]
-            ].some((array) => {
-              if (rowOfSelectedCell > array[0]-1 && row > array[0]-1 &&
-                  rowOfSelectedCell < array[1] && row < array[1] &&
-                  columnOfSelectedCell > array[2]-1 && column > array[2]-1 &&
-                  columnOfSelectedCell < array[3] && column < array[3])
-                  return true;
-              return false;
-            });
+    return [[0, 3, 0, 3],
+    [0, 3, 3, 6],
+    [0, 3, 6, 9],
+    [3, 6, 0, 3],
+    [3, 6, 3, 6],
+    [3, 6, 6, 9],
+    [6, 9, 0, 3],
+    [6, 9, 3, 6],
+    [6, 9, 6, 9]
+    ].some((array) => {
+      if (rowOfSelectedCell > array[0] - 1 && row > array[0] - 1 &&
+        rowOfSelectedCell < array[1] && row < array[1] &&
+        columnOfSelectedCell > array[2] - 1 && column > array[2] - 1 &&
+        columnOfSelectedCell < array[3] && column < array[3])
+        return true;
+      return false;
+    });
   }
 
   /**
@@ -76,16 +76,28 @@ export const GameSection = (props) => {
     if (value !== '0') {
       if (initArray[indexOfArray] === '0') {
         return (
-          <td className={`game__cell game__cell--userfilled game__cell--${highlight}selected`} key={indexOfArray} onClick={() => props.onClick(indexOfArray)}>{value}</td>
+          // Occurs on number pad selection on highlighted cell
+          <td className={`game__cell game__cell--userfilled game__cell--${highlight}selected`}
+            key={indexOfArray}
+            onClick={() => props.onClick(indexOfArray)}
+          >
+            {value}
+          </td>
         )
       } else {
         return (
+          // Highlighting values already in game.
           <td className={`game__cell game__cell--filled game__cell--${highlight}selected`} key={indexOfArray} onClick={() => props.onClick(indexOfArray)}>{value}</td>
         )
       }
     } else {
       return (
-        <td className={`game__cell game__cell--${highlight}selected`} key={indexOfArray} onClick={() => props.onClick(indexOfArray)}>{value}</td>
+        <td className={`game__cell game__cell--${highlight}selected`}
+          key={indexOfArray}
+          onClick={() => props.onClick(indexOfArray)}
+        >
+          {value}
+        </td>
       )
     }
   }
@@ -112,8 +124,15 @@ export const GameSection = (props) => {
   }
 
   return (
-    <section className="game">
-      <table className="game__board">
+    <section className="game"
+
+    >
+      <table className="game__board"
+        onKeyPress={(event) => {
+          if (cellSelected !== -1) props.handleKeyPress(event, cellSelected);
+        }}
+        tabIndex="0" /*magic*/
+      >
         <tbody>
           {
             rows.map((row) => {
